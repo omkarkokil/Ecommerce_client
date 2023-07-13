@@ -33,6 +33,7 @@ const ClientOrders = () => {
 
   useEffect(() => {
     MyOrders();
+    console.log("hii");
   }, []);
 
   return (
