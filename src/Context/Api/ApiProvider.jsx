@@ -73,6 +73,7 @@ const ApiProvider = ({ children }) => {
     setTotalCategoryBuy,
     setInventory,
     setTopPurchaseProduct,
+    isLoading,
     // orderdata
   } = useContext(StateContext);
 
@@ -137,7 +138,6 @@ const ApiProvider = ({ children }) => {
     await CallBack();
     try {
       const string = img.toString();
-      console.log(string);
 
       setIsLoading(true);
       const { name, email, password, Cpassword } = user;
@@ -177,7 +177,7 @@ const ApiProvider = ({ children }) => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -217,7 +217,7 @@ const ApiProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -260,7 +260,7 @@ const ApiProvider = ({ children }) => {
             console.log(err);
           });
       } catch (error) {
-        console.log(error);
+        toast.error("404 server error please try again", toastoption);
       }
     },
   });
@@ -286,7 +286,7 @@ const ApiProvider = ({ children }) => {
       }
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -307,7 +307,7 @@ const ApiProvider = ({ children }) => {
         AllUsersData();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -319,10 +319,9 @@ const ApiProvider = ({ children }) => {
 
   const postDetailes = async (pics) => {
     const pic = Array.from(pics);
-    console.log(pic);
 
     if (pic === undefined) {
-      console.log("select img");
+      toast.warning("Please select an image");
     }
 
     try {
@@ -341,7 +340,6 @@ const ApiProvider = ({ children }) => {
           }
         );
         img.push(response.data.url);
-        console.log(img);
       });
       await Promise.all(uploadPromises);
       setImageArr((CopyAll) => [...CopyAll, ...img]);
@@ -369,7 +367,7 @@ const ApiProvider = ({ children }) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     setCategory("");
   };
@@ -403,34 +401,34 @@ const ApiProvider = ({ children }) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     setCategory("");
   };
 
-  const getProducts = useCallback(
-    async (id) => {
-      try {
-        const { data } = await axios.get(
-          process.env.REACT_APP_GET_ALL_PRODUCT_URL,
-          {
-            params: {
-              page: loc.includes("/admin/products") ? activePage : 1,
-              size: loc.includes("/admin/products") ? 10 : 15,
-              search: id,
-            },
-          }
-        );
+  const getProducts = async (id) => {
+    try {
+      setIsLoading(true);
+      setAllProducts([]);
+      const { data } = await axios.get(
+        process.env.REACT_APP_GET_ALL_PRODUCT_URL,
+        {
+          params: {
+            page: loc.includes("/admin/products") ? activePage : 1,
+            size: loc.includes("/admin/products") ? 10 : 15,
+            search: id,
+          },
+        }
+      );
 
-        setAllProducts(data.products);
-        setProductCount(data.total);
-        setInventory(data.Inventory);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [(allProducts, activePage)]
-  );
+      setAllProducts(data.products);
+      setProductCount(data.total);
+      setInventory(data.Inventory);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error("404 server error please try again", toastoption);
+    }
+  };
 
   const GetProduct = async (id) => {
     setComponantLoading(true);
@@ -454,7 +452,7 @@ const ApiProvider = ({ children }) => {
       }
     } catch (error) {
       setComponantLoading(false);
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     setComponantLoading(false);
   };
@@ -475,11 +473,13 @@ const ApiProvider = ({ children }) => {
       }
       if (data.status === true) {
         toast.success(data.msg, toastoption);
-        getProducts();
+        if (loc.includes("/admin")) {
+          getProducts();
+        }
       }
     } catch (error) {
       toast.error("404 server error", toastoption);
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -491,7 +491,7 @@ const ApiProvider = ({ children }) => {
 
       setComments(data.product);
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -521,7 +521,7 @@ const ApiProvider = ({ children }) => {
         toast.success(data.msg, toastoption);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     handleCloseModal();
   };
@@ -551,7 +551,7 @@ const ApiProvider = ({ children }) => {
         setCartCount(cartCount + 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     setQty(1);
   };
@@ -570,7 +570,7 @@ const ApiProvider = ({ children }) => {
       }
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   }, [cartItem]);
 
@@ -596,7 +596,7 @@ const ApiProvider = ({ children }) => {
         setCartCount(cartCount - 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -635,7 +635,7 @@ const ApiProvider = ({ children }) => {
         handleNext();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -667,7 +667,7 @@ const ApiProvider = ({ children }) => {
       setAllOrdersCount(data.count);
       setTopPurchaseProduct(data.topPurchases);
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
     setIsLoading(false);
   };
@@ -687,7 +687,7 @@ const ApiProvider = ({ children }) => {
       setOrder(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
 
@@ -774,7 +774,7 @@ const ApiProvider = ({ children }) => {
       const razor = new window.Razorpay(options);
       razor.open();
     } catch (error) {
-      console.log(error);
+      toast.error("404 server error please try again", toastoption);
     }
   };
   //? Order data

@@ -21,6 +21,7 @@ import Select from "@mui/material/Select";
 import StateContext from "../../../../Context/hooks/StateContext";
 import FunctionContext from "../../../../Context/Function/FunctionContext";
 import Navbar from "../../../../utils/Navbar/Navbar";
+import MainLoader from "../../../../utils/Loaders/MainLoader";
 const Products = () => {
   const [state, setState] = React.useState(false);
 
@@ -34,9 +35,9 @@ const Products = () => {
     filterRating,
     setFilterRating,
     isLoading,
+    componantLoading,
   } = React.useContext(StateContext);
 
-  // console.log(filterRating);
   const { handleCategory, handleValue } = React.useContext(FunctionContext);
 
   const loc = window.location.pathname;
@@ -183,21 +184,24 @@ const Products = () => {
           </React.Fragment>
         ))}
       </div>
-
-      <Box sx={{ my: "7%" }}>
-        <Stack mx={"40px"} mb={"40px"}>
-          <Typography variant="h4" fontWeight={"bold"} color="initial">
-            {isLoading
-              ? " "
-              : loc === "/products"
-              ? ""
-              : allProducts.length !== 0
-              ? `${productCount} results found`
-              : "No result found"}
-          </Typography>
-        </Stack>
-        <GridLayout />
-      </Box>
+      {allProducts && (
+        <>
+          <Box sx={{ my: "7%" }}>
+            <Stack mx={"40px"} mb={"40px"}>
+              <Typography variant="h4" fontWeight={"bold"} color="initial">
+                {isLoading
+                  ? " "
+                  : loc === "/products"
+                  ? ""
+                  : allProducts.length !== 0
+                  ? `${productCount} results found`
+                  : "No result found"}
+              </Typography>
+            </Stack>
+            <GridLayout />
+          </Box>
+        </>
+      )}
     </>
   );
 };
