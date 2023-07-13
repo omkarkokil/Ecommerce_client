@@ -159,7 +159,7 @@ const ApiProvider = ({ children }) => {
       };
 
       const { data } = await axios.post(
-        "/api/auth/registeruser",
+        "https://onestopshopapi.onrender.com/api/auth/registeruser",
         { name, email, password, userPic: string },
         config
       );
@@ -191,10 +191,13 @@ const ApiProvider = ({ children }) => {
         toast.error("All fields are mandatory", toastoption);
         return false;
       }
-      const { data } = await axios.post("/api/auth/loginuser", {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        "https://onestopshopapi.onrender.com/api/auth/loginuser",
+        {
+          email,
+          password,
+        }
+      );
 
       if (!data.status) {
         setIsLoading(false);
@@ -233,12 +236,15 @@ const ApiProvider = ({ children }) => {
           })
           .then(async (credentials) => {
             const { name, email, picture, sub } = credentials.data;
-            const { data } = await axios.post("/api/auth/googleAuth", {
-              name,
-              email,
-              picture,
-              sub,
-            });
+            const { data } = await axios.post(
+              "https://onestopshopapi.onrender.com/api/auth/googleAuth",
+              {
+                name,
+                email,
+                picture,
+                sub,
+              }
+            );
 
             if (data.status) {
               toast.success(data.msg, toastoption);
