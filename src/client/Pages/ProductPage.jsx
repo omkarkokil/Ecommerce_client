@@ -14,10 +14,18 @@ import StateContext from "../../Context/hooks/StateContext";
 import { useParams } from "react-router-dom";
 import LoginLoader from "../../utils/LoginLoader";
 import FunctionContext from "../../Context/Function/FunctionContext";
+import MainLoader from "../../utils/MainLoader";
 
 const ProductPage = () => {
-  const { getProduct, isLoading, productImg, comments, qty, theme } =
-    useContext(StateContext);
+  const {
+    getProduct,
+    isLoading,
+    productImg,
+    componantLoading,
+    comments,
+    qty,
+    theme,
+  } = useContext(StateContext);
   const { decreaseQty, IncreaseQty } = useContext(FunctionContext);
   const { GetProduct, AddToCart } = useContext(ApiContext);
   const { id } = useParams("");
@@ -29,8 +37,9 @@ const ProductPage = () => {
   return (
     <>
       <Navbar />
-      {isLoading ? (
-        <LoginLoader />
+      {isLoading ? <LoginLoader /> : ""}
+      {componantLoading ? (
+        <MainLoader />
       ) : (
         <>
           {getProduct && (

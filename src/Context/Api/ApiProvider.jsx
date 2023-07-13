@@ -12,6 +12,7 @@ import { Try } from "@mui/icons-material";
 const ApiProvider = ({ children }) => {
   const img = [];
   const {
+    setComponantLoading,
     user,
     imageArr,
     currentUser,
@@ -428,11 +429,11 @@ const ApiProvider = ({ children }) => {
         console.log(error);
       }
     },
-    [allProducts, activePage]
+    [(allProducts, activePage)]
   );
 
   const GetProduct = async (id) => {
-    setIsLoading(true);
+    setComponantLoading(true);
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_GET_PRODUCT_URL}/${id}`
@@ -452,9 +453,10 @@ const ApiProvider = ({ children }) => {
         setCategory(data.category);
       }
     } catch (error) {
-      setIsLoading(false);
+      setComponantLoading(false);
       console.log(error);
     }
+    setComponantLoading(false);
   };
 
   const DeleteProduct = async (id) => {

@@ -15,6 +15,7 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -25,6 +26,7 @@ import { Link } from "react-router-dom";
 import StateContext from "../Context/hooks/StateContext";
 import FunctionContext from "../Context/Function/FunctionContext";
 import ApiContext from "../Context/Api/ApiContext";
+import Logo from "./../img/Logo.png";
 
 const Navbar = () => {
   const { isLogin, currentUser, cartCount, isAdmin, theme } =
@@ -68,10 +70,17 @@ const Navbar = () => {
         }}
         className="Nav-main"
       >
-        <Stack alignItems="center" ml={"20px"}>
-          <Typography fontSize={"1.10em"} className="obitron">
+        <Stack alignItems="center" direction={"row"} ml={"20px"}>
+          <Paper
+            component={"img"}
+            src={Logo}
+            sx={{ backgroundColor: "transparent", height: "110px" }}
+            elevation={0}
+            alt="Image not rendered"
+          />
+          {/* <Typography fontSize={"1.10em"} className="obitron">
             ONESTOPSHOP
-          </Typography>
+          </Typography> */}
         </Stack>
 
         <Stack
