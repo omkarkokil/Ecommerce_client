@@ -159,7 +159,7 @@ const ApiProvider = ({ children }) => {
       };
 
       const { data } = await axios.post(
-        "https://onestopshopapi.onrender.com/api/auth/registeruser",
+        `${process.env.REACT_APP_REGISTER_URL}`,
         { name, email, password, userPic: string },
         config
       );
@@ -191,13 +191,10 @@ const ApiProvider = ({ children }) => {
         toast.error("All fields are mandatory", toastoption);
         return false;
       }
-      const { data } = await axios.post(
-        "https://onestopshopapi.onrender.com/api/auth/loginuser",
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post(`${process.env.REACT_APP_LOGIN_URL}`, {
+        email,
+        password,
+      });
 
       if (!data.status) {
         setIsLoading(false);
@@ -229,7 +226,7 @@ const ApiProvider = ({ children }) => {
       try {
         setIsLoading(true);
         await axios
-          .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          .get(`${process.env.REACT_APP_GOOGLE_VERIFY}`, {
             headers: {
               Authorization: `Bearer ${res.access_token}`,
             },
@@ -237,7 +234,7 @@ const ApiProvider = ({ children }) => {
           .then(async (credentials) => {
             const { name, email, picture, sub } = credentials.data;
             const { data } = await axios.post(
-              "https://onestopshopapi.onrender.com/api/auth/googleAuth",
+              `${process.env.REACT_APP_GOOGLE_AUTH}`,
               {
                 name,
                 email,
@@ -337,7 +334,7 @@ const ApiProvider = ({ children }) => {
         formData.append("upload_preset", "collage-app");
         formData.append("cloud_name", "dfxyr6c40");
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dfxyr6c40/image/upload",
+          `${process.env.REACT_APP_CLOUDINARY_URL}`,
           formData,
           {
             headers: {

@@ -48,7 +48,7 @@ const AddCart = () => {
         RemoveCart(productid);
       } else {
         const { data } = await axios.put(
-          "/api/auth/updatecart",
+          `${process.env.REACT_APP_UPDATE_CART}`,
           { productid, qty },
           {
             headers: {
