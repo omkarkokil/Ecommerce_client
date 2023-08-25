@@ -12,7 +12,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import FunctionContext from "../../../../Context/Function/FunctionContext";
 import MainLoader from "../../../../utils/Loaders/MainLoader";
 
-const ProductCard = lazy(() => import("./ProductCard/ProductCard"));
+import ProductCard from "./ProductCard/ProductCard";
 
 const GridLayout = () => {
   const {
@@ -42,6 +42,7 @@ const GridLayout = () => {
   }, [loc, id]);
 
   const fetchData = async () => {
+    setIsLoading(true);
     try {
       if (productPage > 0) {
         const { data } = await axios.get(
@@ -61,6 +62,7 @@ const GridLayout = () => {
           setHasMore(false);
         }
       }
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -68,8 +70,9 @@ const GridLayout = () => {
 
   return (
     <>
-      {loc.includes(`/products/${id}`) && isLoading ? (
-        <MainLoader />
+      {loc.includes(`/products/${id}`) && <MainLoader />}
+      {isLoading ? (
+        <SkeletonLoader count={4} />
       ) : (
         <Stack height={"100vh"}>
           <Stack position={"relative"}>
@@ -138,11 +141,7 @@ const GridLayout = () => {
                           : item.avgrate >= filterRating;
                       })
                       .map((items, id) => {
-                        return (
-                          <Suspense key={id} fallback={<SkeletonLoader />}>
-                            <ProductCard items={items} />
-                          </Suspense>
-                        );
+                        return <ProductCard items={items} />;
                       })}
                   </Box>
                 </InfiniteScroll>

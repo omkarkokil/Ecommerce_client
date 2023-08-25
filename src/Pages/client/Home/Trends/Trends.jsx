@@ -17,9 +17,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import StateContext from "../../../../Context/hooks/StateContext";
 import SkeletonLoader from "../../../../utils/Loaders/Skeletons/SkeletonLoader";
 
-const ProductCard = React.lazy(() =>
-  import("../Product/ProductCard/ProductCard")
-);
+import ProductCard from "../Product/ProductCard/ProductCard";
 
 const Trends = (props) => {
   const scrollnow = () => {
@@ -31,7 +29,7 @@ const Trends = (props) => {
   };
   const ref = useRef(null);
 
-  const { topPurchaseProduct, theme } = useContext(StateContext);
+  const { topPurchaseProduct, theme, isLoading } = useContext(StateContext);
 
   return (
     <>
@@ -86,14 +84,14 @@ const Trends = (props) => {
             },
           }}
         >
-          {topPurchaseProduct &&
+          {isLoading ? (
+            <SkeletonLoader count={5} />
+          ) : (
+            topPurchaseProduct &&
             topPurchaseProduct?.map((items, id) => {
-              return (
-                <Suspense key={id} fallback={<SkeletonLoader />}>
-                  <ProductCard items={items.productInfo} key={id} />
-                </Suspense>
-              );
-            })}
+              return <ProductCard items={items.productInfo} key={id} />;
+            })
+          )}
         </Stack>
       </Stack>
     </>
