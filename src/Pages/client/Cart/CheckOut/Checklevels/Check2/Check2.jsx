@@ -37,7 +37,7 @@ const Check2 = () => {
     setProductPrices({
       totalPrice: result,
       taxPrice: 0,
-      shipingPrice: 40,
+      shipingPrice: 0,
     });
     handleNext();
   };
@@ -180,7 +180,7 @@ const Check2 = () => {
             justifyContent={"space-between"}
           >
             <Typography variant="body1">Shipping Charges</Typography>
-            <Typography variant="body1">&#8377;40 </Typography>
+            <Typography variant="body1">&#8377;0 </Typography>
           </Stack>
           <Stack
             direction={"row"}

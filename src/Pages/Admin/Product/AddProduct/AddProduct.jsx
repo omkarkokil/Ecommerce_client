@@ -65,14 +65,15 @@ const AdminProduct = () => {
         height={"100vh"}
         my={{ md: "50px" }}
         mt={{ xs: "70px" }}
+        width={"100%"}
         alignItems="center"
       >
-        <Stack width={"80%"}>
+        <Stack width={{ md: "90%", lg: "80%" }}>
           <Typography variant="h4" my={"20px"} fontSize={"1.8em"}>
             Add Product
           </Typography>
 
-          <Stack direction={{ md: "row", xs: "column" }}>
+          <Stack direction={{ md: "column", lg: "row" }}>
             <FormControl margin="dense">
               <FormLabel sx={{ color: "#333" }}>Enter Product Name </FormLabel>
               <TextField

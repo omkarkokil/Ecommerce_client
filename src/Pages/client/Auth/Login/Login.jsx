@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/system";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import {
   Facebook,
@@ -23,14 +23,12 @@ import StateContext from "../../../../Context/hooks/StateContext";
 import FunctionContext from "../../../../Context/Function/FunctionContext";
 import ApiContext from "../../../../Context/Api/ApiContext";
 import Navbar from "../../../../utils/Navbar/Navbar";
-import { GoogleLogin } from "@react-oauth/google";
 import LoginLoader from "../../../../utils/Loaders/LoginLoader";
 
 const Login = () => {
-  const { user, setUser, isLoading } = useContext(StateContext);
+  const { user, setUser, isLoading, isLogin } = useContext(StateContext);
   const { handleUser } = useContext(FunctionContext);
   const { loginhandler, googleLogin } = useContext(ApiContext);
-  // console.log(user);
 
   return (
     <>

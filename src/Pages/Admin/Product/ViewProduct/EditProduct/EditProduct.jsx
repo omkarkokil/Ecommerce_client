@@ -269,7 +269,7 @@ const EditProduct = () => {
           </Stack>
 
           <Stack direction={"row"}>
-            {makeProductImage.length <= 0
+            {makeProductImage.length === 0
               ? productImg &&
                 productImg?.map((ele, i) => {
                   return (

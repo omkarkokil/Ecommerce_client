@@ -54,38 +54,40 @@ const ProductCard = ({ items }) => {
                 },
               }}
             >
-              <Carousel
+              {/* <Carousel
                 interval={3000}
                 navButtonsAlwaysInvisible
                 indicators={false}
               >
                 {items?.img.map((element, id) => {
-                  return (
-                    <Stack
-                      key={id}
-                      alignItems={"center"}
-                      height="200px"
-                      justifyContent={"center"}
-                    >
-                      <CardMedia
-                        children={null}
-                        // sx={{ height: 200 }}
-                        image={element !== null ? element : ""}
-                        // component={"div"}
-                        src={element !== null ? element : ""}
-                        alt="none"
-                        elevation={0}
-                        loading="lazy"
-                        component={"img"}
-                        style={{
-                          backgroundColor: "GrayText",
-                          height: "200px",
-                        }}
-                      />
-                    </Stack>
-                  );
+                  return ( */}
+              <Stack
+                // key={id}
+                alignItems={"center"}
+                height="200px"
+                justifyContent={"center"}
+              >
+                <CardMedia
+                  children={null}
+                  // sx={{ height: 200 }}
+                  // image={element !== null ? element : ""}
+                  image={items.img[0]}
+                  // component={"div"}
+                  // src={element !== null ? element : ""}
+                  src={items.img[0]}
+                  alt="none"
+                  elevation={0}
+                  loading="lazy"
+                  component={"img"}
+                  style={{
+                    backgroundColor: "GrayText",
+                    height: "200px",
+                  }}
+                />
+              </Stack>
+              {/* );
                 })}
-              </Carousel>
+              </Carousel> */}
             </Stack>
 
             <CardContent>

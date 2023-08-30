@@ -77,13 +77,15 @@ const Navbar = () => {
               mr: "10px",
             }}
           />
-          <Typography
-            color={"#333"}
-            fontSize={{ md: "1.10em", sm: "1em" }}
-            className="obitron"
-          >
-            ONESTOPSHOP
-          </Typography>
+          <Link to={"/"}>
+            <Typography
+              color={"#333"}
+              fontSize={{ md: "1.10em", sm: "1em" }}
+              className="obitron"
+            >
+              ONESTOPSHOP
+            </Typography>
+          </Link>
         </Stack>
 
         <Stack

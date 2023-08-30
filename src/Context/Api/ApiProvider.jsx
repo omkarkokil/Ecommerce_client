@@ -89,24 +89,40 @@ const ApiProvider = ({ children }) => {
     theme: "dark",
   };
 
+  const logOut = () => {
+    localStorage.clear();
+    toast.success("Log out successfully", toastoption);
+    setIsLogin(false);
+    setisAdmin(false);
+    navigate("/");
+  };
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       const token = localStorage.getItem("user");
       const decode = jwt_decode(token);
       const { id } = decode;
 
-      setCurrentUser({
-        name: id.name,
-        email: id.email,
-        userpic: id.userPic,
-        id: id._id,
-        isAdmin: id.isAdmin,
-        createdAt: id.createdAt,
-      });
+      if (decode.id !== null) {
+        setCurrentUser({
+          name: id.name,
+          email: id.email,
+          userpic: id.userPic,
+          id: id._id,
+          isAdmin: id.isAdmin,
+          createdAt: id.createdAt,
+        });
 
-      setIsLogin(true);
+        setIsLogin(true);
+
+        const expirationTime = decode.exp * 1000;
+
+        if (Date.now() > expirationTime) {
+          logOut();
+        }
+      }
     }
-  }, [isLogin]);
+  }, [loc, isLogin]);
 
   useEffect(() => {
     let tokenId;
@@ -121,18 +137,11 @@ const ApiProvider = ({ children }) => {
       setisAdmin(true);
       setIsLogin(true);
     }
+
     if (loc.includes("/admin") && tokenId !== 1) {
       navigate("/");
     }
   }, [loc, setIsLogin]);
-
-  const logOut = () => {
-    localStorage.clear();
-    toast.success("Log out successfully", toastoption);
-    setIsLogin(false);
-    setisAdmin(false);
-    navigate("/");
-  };
 
   const RegisterHandler = async (CallBack) => {
     await CallBack();
@@ -144,7 +153,7 @@ const ApiProvider = ({ children }) => {
 
       if (password !== Cpassword) {
         setIsLoading(false);
-        console.log(
+        toast.error(
           "password and confirmpassword are not matching",
           toastoption
         );
@@ -166,7 +175,7 @@ const ApiProvider = ({ children }) => {
 
       if (data.status === false) {
         setIsLoading(false);
-        console.log(data.msg, toastoption);
+        toast.error(data.msg, toastoption);
         return false;
       }
       if (data.status) {
@@ -188,7 +197,7 @@ const ApiProvider = ({ children }) => {
 
       if ((!email, !password)) {
         setIsLoading(false);
-        console.log("All fields are mandatory", toastoption);
+        toast.error("All fields are mandatory", toastoption);
         return false;
       }
       const { data } = await axios.post(`${process.env.REACT_APP_LOGIN_URL}`, {
@@ -198,23 +207,21 @@ const ApiProvider = ({ children }) => {
 
       if (!data.status) {
         setIsLoading(false);
-        console.log(data.msg, toastoption);
+        toast.error(data.msg, toastoption);
         return false;
       }
 
       if (data.status) {
         setIsLoading(false);
-        toast.success(data.msg, toastoption);
-        localStorage.setItem("user", data.token);
 
         if (data.isAdminStatus) {
           localStorage.setItem("isAdmin", data.isAuth);
           navigate("/");
         }
+        toast.success(data.msg, toastoption);
+        localStorage.setItem("user", data.token);
 
-        if (!data.isAdminStatus) {
-          navigate("/");
-        }
+        navigate("/");
       }
     } catch (error) {
       console.log("404 server error please try again", toastoption);
@@ -362,6 +369,12 @@ const ApiProvider = ({ children }) => {
         { name, desc: productDesc, stock, price, img, category }
       );
 
+      if (!name || !productDesc || !stock || !price || !category) {
+        toast.error("All fields are mandatory", toastoption);
+
+        setIsLoading(false);
+        return false;
+      }
       if (data.status) {
         toast.success(data.msg, toastoption);
         setIsLoading(false);
@@ -392,6 +405,12 @@ const ApiProvider = ({ children }) => {
           category,
         }
       );
+
+      if (!name || !productDesc || !stock || !price || !category) {
+        toast.error("All fields are mandatory", toastoption);
+        setIsLoading(false);
+        return false;
+      }
 
       if (!data.success) {
         console.log(data.msg, toastoption);

@@ -74,9 +74,8 @@ const AddCart = () => {
   return (
     <>
       <Navbar />
-      {isLoading ? (
-        <LoginLoader />
-      ) : cartItem?.length <= 0 ? (
+      {isLoading && <LoginLoader />}
+      {cartItem?.length <= 0 ? (
         <Stack height={"85vh"} justifyContent={"center"} alignItems={"center"}>
           <Avatar
             sx={{

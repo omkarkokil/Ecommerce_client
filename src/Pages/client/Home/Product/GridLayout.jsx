@@ -42,7 +42,6 @@ const GridLayout = () => {
   }, [loc, id]);
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       if (productPage > 0) {
         const { data } = await axios.get(
@@ -62,7 +61,6 @@ const GridLayout = () => {
           setHasMore(false);
         }
       }
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +68,7 @@ const GridLayout = () => {
 
   return (
     <>
-      {loc.includes(`/products/${id}`) && <MainLoader />}
+      {loc.includes(`/products/${id}`) && isLoading && <MainLoader />}
       {isLoading ? (
         <SkeletonLoader count={4} />
       ) : (
@@ -141,7 +139,7 @@ const GridLayout = () => {
                           : item.avgrate >= filterRating;
                       })
                       .map((items, id) => {
-                        return <ProductCard items={items} />;
+                        return <ProductCard key={id} items={items} />;
                       })}
                   </Box>
                 </InfiniteScroll>

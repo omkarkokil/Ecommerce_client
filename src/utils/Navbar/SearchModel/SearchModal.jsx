@@ -16,7 +16,8 @@ const style = {
   top: "5%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+
+  width: { md: "85%", sm: "90%" },
   p: 4,
 };
 
@@ -39,6 +40,7 @@ export default function SearchModal() {
             sx={{
               width: "100%",
               background: "#fff",
+              borderRadius: "5px",
             }}
             label="Search"
             name="search"
